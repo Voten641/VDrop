@@ -1,0 +1,10 @@
+name: VDrop
+version: '${project.version}'
+main: me.voten.vdrop.Main
+api-version: 1.15
+prefix: VDrop
+authors: [ Voten641 ]
+website: voten641.github.io
+commands:
+  turbodrop:
+  drop:
