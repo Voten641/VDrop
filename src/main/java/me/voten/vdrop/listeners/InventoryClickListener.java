@@ -8,9 +8,24 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class InventoryClickListener implements Listener {
+
+    @EventHandler
+    public void onClose(InventoryCloseEvent e){
+        if(e.getView().getTitle().equals("§aDrop gui configuration")){
+            List<ItemStack> items = new ArrayList<>();
+            for(ItemStack it : e.getView().getTopInventory()){
+                items.add(it);
+                System.out.println(it);
+            }
+        }
+    }
 
     @EventHandler
     public void onClick(InventoryClickEvent e){
@@ -33,8 +48,6 @@ public class InventoryClickListener implements Listener {
                         }
                     }else if(e.getCurrentItem().getItemMeta().getDisplayName().contains(Main.color(Main.config.getString("auto-sell")))){
                         pc.setAutosell(!pc.isAutosell());
-                    }else if(e.getCurrentItem().getItemMeta().getDisplayName().contains(Main.color(Main.config.getString("auto-cobblex")))){
-                        pc.setAutocraftcb(!pc.isAutocraftcb());
                     }else if(e.getCurrentItem().getItemMeta().getDisplayName().contains(Main.color(Main.config.getString("drop-to-inv")))){
                         pc.setAutopickup(!pc.isAutopickup());
                     }

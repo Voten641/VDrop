@@ -14,7 +14,6 @@ public class PlayerClass {
     private static Map<Player, PlayerClass> listPlayers = new ConcurrentHashMap<>();
     private HashMap<ItemsClass, Boolean> drop = Maps.newHashMap();
     private boolean autosell = false;
-    private boolean autocraftcb = false;
     private boolean autopickup = true;
     private Player player = null;
     private int cansenddropmessage = 0;
@@ -31,7 +30,6 @@ public class PlayerClass {
     public PlayerClass(Player p, boolean as, boolean ac, int ls, int lp, boolean ms){
         player = p;
         autosell = as;
-        autocraftcb = ac;
         for (ItemsClass ic : Main.drops){
             drop.put(ic, true);
         }
@@ -44,10 +42,6 @@ public class PlayerClass {
 
     public Player getPlayer() {
         return player;
-    }
-
-    public boolean isAutocraftcb() {
-        return autocraftcb;
     }
 
     public boolean isAutosell() {
@@ -64,10 +58,6 @@ public class PlayerClass {
 
     public void setAutosell(boolean autosell) {
         this.autosell = autosell;
-    }
-
-    public void setAutocraftcb(boolean autocraftcb) {
-        this.autocraftcb = autocraftcb;
     }
 
     public boolean isAutopickup() {

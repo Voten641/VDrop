@@ -13,6 +13,8 @@ import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -27,6 +29,7 @@ public final class Main extends JavaPlugin {
     public static boolean customnames = false;
     public static FileConfiguration config;
     public static List<Material> blocksdrop = new ArrayList<>();
+    private String sVersion;
 
     @Override
     public void onEnable() {
@@ -85,9 +88,6 @@ public final class Main extends JavaPlugin {
                     currentitem.getInt("max"), currentitem.getDouble("money"), name));
         }
         drops.sort(Comparator.comparing(ItemsClass::getChance));
-        for (ItemsClass itm : Main.drops){
-            System.out.println(itm.getItem() + "  " + itm.getChance());
-        }
     }
 
     private boolean setupEconomy() {
@@ -115,4 +115,24 @@ public final class Main extends JavaPlugin {
         s = s.replace("&", "§");
         return s;
     }
+
+
+    public static ItemStack itms(Material mat, String name, List<String> lore){
+        ItemStack it = new ItemStack(mat);
+        ItemMeta im = it.getItemMeta();
+        assert im != null;
+        im.setDisplayName(name);
+        im.setLore(lore);
+        it.setItemMeta(im);
+        return it;
+    }
+    public static ItemStack itms(Material mat, String name){
+        ItemStack it = new ItemStack(mat);
+        ItemMeta im = it.getItemMeta();
+        assert im != null;
+        im.setDisplayName(name);
+        it.setItemMeta(im);
+        return it;
+    }
+
 }

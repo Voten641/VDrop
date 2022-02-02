@@ -24,7 +24,6 @@ public class MineListener implements Listener {
             Random rand = new Random();
             double chance = chance(rand, e.getPlayer());
             PlayerClass pc = PlayerClass.getByPlayer(p);
-            Cobblex(pc);
             for (ItemsClass itm : Main.drops){
                 if (chance <= addchances(itm.getChance(), pc) && pc.getDrop(itm)){
                     if(e.getBlock().getY() >= itm.getMinY() && e.getBlock().getY() <= itm.getMaxY()) {
@@ -38,21 +37,6 @@ public class MineListener implements Listener {
                         }
                     }
                 }
-            }
-        }
-    }
-
-    public void Cobblex(PlayerClass pc){
-        if(pc.isAutocraftcb()){
-            if(pc.getPlayer().getInventory().contains(Material.COBBLESTONE, 576)) {
-                pc.getPlayer().getInventory().removeItem(new ItemStack(Material.COBBLESTONE, 576));
-                pc.getPlayer().updateInventory();
-                ItemStack cb = new ItemStack(Material.COBBLESTONE);
-                ItemMeta im = cb.getItemMeta();
-                im.setDisplayName("§aCobblex");
-                im.addEnchant(Enchantment.LUCK, 1, true);
-                cb.setItemMeta(im);
-                pc.getPlayer().getInventory().addItem(cb);
             }
         }
     }
