@@ -3,8 +3,10 @@ package me.voten.vdrop.utils;
 import me.voten.vdrop.Main;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -24,6 +26,8 @@ public class GuiDrop {
             status = Main.replaceBooleans(status);
             ItemStack it = itm.getItem();
             ItemMeta im = it.getItemMeta();
+            im.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+            im.addEnchant(Enchantment.DURABILITY, 1, true);
             List<String> lore2 = Main.config.getStringList("itemlore");
             List<String> lore = new ArrayList<>();
             for(String l : lore2){
@@ -41,12 +45,12 @@ public class GuiDrop {
             it.setItemMeta(im);
             inv.addItem(it);
         }
-        inv.setItem(27, itms(Material.GREEN_WOOL, Main.color(Main.config.getString("enable-all"))));
-        inv.setItem(28, itms(Material.RED_WOOL, Main.color(Main.config.getString("disable-all"))));
+        inv.setItem(27, itms(XMaterial.GREEN_WOOL.parseItem(), Main.color(Main.config.getString("enable-all"))));
+        inv.setItem(28, itms(XMaterial.RED_WOOL.parseItem(), Main.color(Main.config.getString("disable-all"))));
         if(p.hasPermission("vdrop.autosell"))
-        inv.setItem(34, itms(Material.ITEM_FRAME, Main.color(Main.config.getString("auto-sell")), Arrays.asList(Main.replaceBooleans(""+pc.isAutosell()))));
+        inv.setItem(34, itms(XMaterial.ITEM_FRAME.parseItem(), Main.color(Main.config.getString("auto-sell")), Arrays.asList(Main.replaceBooleans(""+pc.isAutosell()))));
         if(p.hasPermission("vdrop.toinventory"))
-        inv.setItem(35, itms(Material.CHEST, Main.color(Main.config.getString("drop-to-inv")), Arrays.asList(Main.replaceBooleans(""+pc.isAutopickup()))));
+        inv.setItem(35, itms(XMaterial.CHEST.parseItem(), Main.color(Main.config.getString("drop-to-inv")), Arrays.asList(Main.replaceBooleans(""+pc.isAutopickup()))));
         return inv;
     }
 }

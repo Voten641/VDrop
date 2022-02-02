@@ -1,5 +1,6 @@
 package me.voten.vdrop;
 
+import com.google.common.collect.Maps;
 import me.voten.vdrop.commands.DropCommand;
 import me.voten.vdrop.commands.TurboCommand;
 import me.voten.vdrop.listeners.InventoryClickListener;
@@ -29,7 +30,8 @@ public final class Main extends JavaPlugin {
     public static boolean customnames = false;
     public static FileConfiguration config;
     public static List<Material> blocksdrop = new ArrayList<>();
-    private String sVersion;
+    public static HashMap<Player, String> namechangeplayer = Maps.newHashMap();
+    public static HashMap<Player, ItemStack> itemchangeplayer = Maps.newHashMap();
 
     @Override
     public void onEnable() {
@@ -135,4 +137,22 @@ public final class Main extends JavaPlugin {
         return it;
     }
 
+    public static ItemStack itms(ItemStack it, String name, List<String> lore){
+        ItemMeta im = it.getItemMeta();
+        assert im != null;
+        im.setDisplayName(name);
+        im.setLore(lore);
+        it.setItemMeta(im);
+        return it;
+    }
+    public static ItemStack itms(ItemStack it, String name){
+        ItemMeta im = it.getItemMeta();
+        assert im != null;
+        im.setDisplayName(name);
+        it.setItemMeta(im);
+        return it;
+    }
+    public void saveConfigFile(){
+        saveConfig();
+    }
 }
