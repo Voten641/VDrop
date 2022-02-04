@@ -17,12 +17,12 @@ multi-items: true # several items fall out when digging stone
 blocks: # from which blocks will drop items
   - stone
   - andesite
-custom-names: true
 # Variables: %status, %chance, %min, %max, %exp, %money
 itemlore:
   - '&7Status: %status'
   - '&7Chance: %chance'
   - '&7Money: %money'
+custom-names: true
 itemlist:
   -'1':
     item: iron_ingot
