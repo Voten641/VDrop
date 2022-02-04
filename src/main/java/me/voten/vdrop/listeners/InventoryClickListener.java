@@ -28,7 +28,7 @@ public class InventoryClickListener implements Listener {
                 ItemsClass itm = findByItemStack(e.getCurrentItem());
                 PlayerClass pc = PlayerClass.getByPlayer((Player) e.getWhoClicked());
                 if(e.getCurrentItem().containsEnchantment(Enchantment.DURABILITY) && itm != null){
-                    pc.setDrop(itm, !pc.getDrop(itm));
+                    pc.setDrop(Main.drops.get(e.getSlot()), !pc.getDrop(Main.drops.get(e.getSlot())));
                 }
                 else{
                     if(e.getCurrentItem().getItemMeta().getDisplayName().contains(Main.color(Main.config.getString("disable-all")))){

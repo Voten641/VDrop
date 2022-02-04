@@ -1,5 +1,6 @@
 package me.voten.vdrop.utils;
 
+import me.voten.vdrop.Main;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
@@ -48,4 +49,5 @@ public class ItemsClass {
     }
 
     public String getName() {return name;}
+
 }
