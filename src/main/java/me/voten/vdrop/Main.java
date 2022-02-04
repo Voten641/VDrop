@@ -31,7 +31,7 @@ public final class Main extends JavaPlugin {
     public static FileConfiguration config;
     public static List<Material> blocksdrop = new ArrayList<>();
     public static HashMap<Player, String> namechangeplayer = Maps.newHashMap();
-    public static HashMap<Player, ItemStack> itemchangeplayer = Maps.newHashMap();
+    public static HashMap<Player, String> itemchangeplayer = Maps.newHashMap();
 
     @Override
     public void onEnable() {

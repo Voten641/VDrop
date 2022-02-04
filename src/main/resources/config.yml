@@ -1,41 +1,50 @@
-title: "&aDrop"
-enable-all: "&aEnable all"
-disable-all: "&cDisable all"
-auto-sell: "&eAuto Sell"
-auto-cobblex: "&7Auto Cobblex"
-drop-to-inv: "&eDrop to inventory"
-enabled: "&aEnabled"
-disabled: "&cDisabled"
+title: '&aDrop'
+enable-all:
+  - 'hej'
+  - GREEN_WOOL
+disable-all:
+  - '&cDisable all'
+  - RED_WOOL
+auto-sell:
+  - '&eAuto Sell'
+  - SUNFLOWER
+drop-to-inv:
+  - '&eDrop to inventory'
+  - CHEST
+enabled: '&aEnabled'
+disabled: '&cDisabled'
 multi-items: true # several items fall out when digging stone
-blocks: ["stone", "andesite"] # from which blocks will drop items
-custom-names: true # custom item name in gui
+blocks: # from which blocks will drop items
+  - stone
+  - andesite
+custom-names: true
 # Variables: %status, %chance, %min, %max, %exp, %money
 itemlore:
-  - "&7Status: %status"
-  - "&7Chance: %chance"
-  - "&7Money: %money"
+  - '&7Status: %status'
+  - '&7Chance: %chance'
+  - '&7Money: %money'
 itemlist:
   -'1':
-    item: "iron_ingot" # material
-    chance: 50.0 # drop chance
+    item: iron_ingot
+    chance: 50.0
     min: 1
     max: 50
     exp: 10
     money: 10
-    name: "&3Iron :)"
+    name: '&3Iron :)'
   -'2':
-    item: "gold_ingot"
+    item: gold_ingot
     chance: 30.3
     min: 1
     max: 50
     exp: 10
     money: 20
-    name: "&8Gold :("
+    name: '&8Gold :('
   -'3':
-    item: "diamond"
+    item: diamond
     chance: 5.7
     min: 1
     max: 50
     exp: 10
     money: 50
-    name: "&eDiamond :O"
+    name: '&eDiamond'

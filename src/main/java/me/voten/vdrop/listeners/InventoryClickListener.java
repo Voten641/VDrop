@@ -1,23 +1,22 @@
 package me.voten.vdrop.listeners;
 
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Maps;
 import me.voten.vdrop.Main;
-import me.voten.vdrop.utils.GuiConfiguration;
-import me.voten.vdrop.utils.GuiDrop;
-import me.voten.vdrop.utils.ItemsClass;
-import me.voten.vdrop.utils.PlayerClass;
+import me.voten.vdrop.utils.*;
+import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
+import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 public class InventoryClickListener implements Listener {
 
@@ -53,28 +52,22 @@ public class InventoryClickListener implements Listener {
         if(e.getView().getTitle().equals("§aDrop gui configuration")){
             Player p = (Player) e.getWhoClicked();
             if(e.getCurrentItem() != null){
+                e.setCancelled(true);
+                HashMap<Integer, String> configs = new HashMap<Integer, String>(){{
+                    put(0,"enable-all"); put(1,"disable-all"); put(2,"auto-sell"); put(3,"drop-to-inv");
+                    put(12,"enabled"); put(13,"disabled"); put(14,"title");
+                }};
                 if(e.getClick().isRightClick()){
                      p.closeInventory();
                      p.sendMessage("§eType new name on chat");
-                     List<String> configs = Arrays.asList("enable-all", "disable-all", "auto-sell", "drop-to-inv", "enabled", "disabled", "title");
-                     for (String s : configs){
-                         if(e.getCurrentItem().getItemMeta().getDisplayName().contains(Main.color(Main.config.getString(s)))){
-                             Main.namechangeplayer.put(p, s);
-                         }
-                     }
+                     Main.namechangeplayer.put(p, configs.get(e.getSlot()));
                 }
-                /*if(e.getClick().isLeftClick()){
+                else if(e.getClick().isLeftClick() && e.getSlot() < 9){
+                    e.setCancelled(true);
                     p.closeInventory();
                     p.sendMessage("§eType new item on chat");
-                    Main.itemchangeplayer.put(p, e.getCurrentItem());
-
-                    List<String> configs = Arrays.asList("enable-all", "disable-all", "auto-sell", "drop-to-inv", "enabled", "disabled", "title");
-                    for (String s : configs){
-                        if(e.getCurrentItem().getItemMeta().getDisplayName().contains(Main.color(Main.config.getString(s)))){
-                            Main.namechangeplayer.put(p, s);
-                        }
-                    }
-                }*/
+                    Main.itemchangeplayer.put(p, configs.get(e.getSlot()));
+                }
             }
         }
     }
@@ -83,10 +76,25 @@ public class InventoryClickListener implements Listener {
     public void onMessage(AsyncPlayerChatEvent e){
         if(Main.namechangeplayer.containsKey(e.getPlayer())){
             e.setCancelled(true);
-            Main.config.set(Main.namechangeplayer.get(e.getPlayer()), e.getMessage());
+            List<String> list = Main.config.getStringList(Main.namechangeplayer.get(e.getPlayer()));
+            list.set(0, e.getMessage());
+            Main.config.set(Main.namechangeplayer.get(e.getPlayer()), list);
             e.getPlayer().openInventory(GuiConfiguration.inv());
             Main.namechangeplayer.remove(e.getPlayer());
             Main.getPlugin(Main.class).saveConfig();
+        }if(Main.itemchangeplayer.containsKey(e.getPlayer())){
+            e.setCancelled(true);
+            e.setMessage(e.getMessage().replace(" ", "_"));
+            if (XMaterial.matchXMaterial(e.getMessage().toUpperCase()).isPresent()){
+                List<String> list = Main.config.getStringList(Main.itemchangeplayer.get(e.getPlayer()));
+                list.set(1, e.getMessage().toUpperCase());
+                Main.config.set(Main.itemchangeplayer.get(e.getPlayer()), list);
+                Main.itemchangeplayer.remove(e.getPlayer());
+                e.getPlayer().openInventory(GuiConfiguration.inv());
+                Main.getPlugin(Main.class).saveConfig();
+                return;
+            }
+            e.getPlayer().sendMessage("§cIncorrect item, try again");
         }
     }
 

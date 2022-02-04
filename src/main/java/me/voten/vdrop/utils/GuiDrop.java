@@ -19,7 +19,14 @@ import static me.voten.vdrop.Main.itms;
 public class GuiDrop {
 
     public static Inventory inv(Player p){
-        Inventory inv = Bukkit.createInventory(null, 36, Main.color(Main.config.getString("title")));
+        List<Integer> size = Arrays.asList(18,27,36,45,54);
+        Integer invsize = 54;
+        for (int i : size){
+            if((i-9) >= Main.drops.size()){
+                invsize = i;
+            }
+        }
+        Inventory inv = Bukkit.createInventory(null, invsize, Main.color(Main.config.getString("title")));
         PlayerClass pc = PlayerClass.getByPlayer(p);
         for (ItemsClass itm : Main.drops){
             String status = Boolean.toString(PlayerClass.getByPlayer(p).getDrop(itm));
@@ -45,12 +52,12 @@ public class GuiDrop {
             it.setItemMeta(im);
             inv.addItem(it);
         }
-        inv.setItem(27, itms(XMaterial.GREEN_WOOL.parseItem(), Main.color(Main.config.getString("enable-all"))));
-        inv.setItem(28, itms(XMaterial.RED_WOOL.parseItem(), Main.color(Main.config.getString("disable-all"))));
+        inv.setItem(27, itms(XMaterial.valueOf(Main.config.getStringList("enable-all").get(1).toUpperCase()).parseItem(), Main.color(Main.config.getStringList("enable-all").get(0))));
+        inv.setItem(28, itms(XMaterial.valueOf(Main.config.getStringList("disable-all").get(1).toUpperCase()).parseItem(), Main.color(Main.config.getStringList("disable-all").get(0))));
         if(p.hasPermission("vdrop.autosell"))
-        inv.setItem(34, itms(XMaterial.ITEM_FRAME.parseItem(), Main.color(Main.config.getString("auto-sell")), Arrays.asList(Main.replaceBooleans(""+pc.isAutosell()))));
+        inv.setItem(34, itms(XMaterial.valueOf(Main.config.getStringList("auto-sell").get(1).toUpperCase()).parseItem(), Main.color(Main.config.getStringList("auto-sell").get(0)), Arrays.asList(Main.replaceBooleans(""+pc.isAutosell()))));
         if(p.hasPermission("vdrop.toinventory"))
-        inv.setItem(35, itms(XMaterial.CHEST.parseItem(), Main.color(Main.config.getString("drop-to-inv")), Arrays.asList(Main.replaceBooleans(""+pc.isAutopickup()))));
+        inv.setItem(35, itms(XMaterial.valueOf(Main.config.getStringList("drop-to-inv").get(1).toUpperCase()).parseItem(), Main.color(Main.config.getStringList("drop-to-inv").get(0)), Arrays.asList(Main.replaceBooleans(""+pc.isAutopickup()))));
         return inv;
     }
 }
