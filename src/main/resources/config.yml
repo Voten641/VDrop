@@ -1,7 +1,7 @@
 title: '&aDrop'
 enable-all:
-  - 'hej'
-  - GREEN_WOOL
+  - '&aEnable all'
+  - LIME_WOOL
 disable-all:
   - '&cDisable all'
   - RED_WOOL
@@ -48,3 +48,11 @@ itemlist:
     exp: 10
     money: 50
     name: '&eDiamond'
+  -'4':
+    item: iron_ingot
+    chance: 40.0
+    min: 1
+    max: 50
+    exp: 10
+    money: 10
+    name: '&3Iron :)'
