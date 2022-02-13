@@ -1,9 +1,8 @@
 package me.voten.vdrop.listeners;
 
 import me.voten.vdrop.Main;
-import me.voten.vdrop.utils.ItemsClass;
+import me.voten.vdrop.utils.ItemClass;
 import me.voten.vdrop.utils.PlayerClass;
-import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
@@ -11,7 +10,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.Random;
 
@@ -24,7 +22,7 @@ public class MineListener implements Listener {
             Random rand = new Random();
             double chance = chance(rand, e.getPlayer());
             PlayerClass pc = PlayerClass.getByPlayer(p);
-            for (ItemsClass itm : Main.drops){
+            for (ItemClass itm : Main.drops){
                 if (chance <= addchances(itm.getChance(), pc) && pc.getDrop(itm)){
                     if(e.getBlock().getY() >= itm.getMinY() && e.getBlock().getY() <= itm.getMaxY()) {
                         ItemStack it = itm.getItem();
@@ -41,7 +39,7 @@ public class MineListener implements Listener {
         }
     }
 
-    public void SellItems(PlayerClass pc, ItemStack it, ItemsClass itm){
+    public void SellItems(PlayerClass pc, ItemStack it, ItemClass itm){
         double price = it.getAmount() * itm.getPrice();
         Main.getEconomy().depositPlayer(pc.getPlayer(), price);
     }

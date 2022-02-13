@@ -2,7 +2,6 @@ package me.voten.vdrop.utils;
 
 import com.google.common.collect.Maps;
 import me.voten.vdrop.Main;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;
@@ -12,26 +11,21 @@ import java.util.concurrent.ConcurrentHashMap;
 public class PlayerClass {
 
     private static Map<Player, PlayerClass> listPlayers = new ConcurrentHashMap<>();
-    private HashMap<ItemsClass, Boolean> drop = Maps.newHashMap();
-    private boolean autosell = false;
-    private boolean autopickup = true;
-    private Player player = null;
-    private int cansenddropmessage = 0;
-    private int turbodroptime = 0;
+    private final HashMap<ItemClass, Boolean> drop = Maps.newHashMap();
+    private boolean autosell;
+    private boolean autopickup;
+    private final Player player;
+    private int cansenddropmessage;
+    private int turbodroptime;
 
     public PlayerClass(Player p){
         player = p;
-        for (ItemsClass ic : Main.drops){
+        autosell = false;
+        autopickup = true;
+        cansenddropmessage = 0;
+        turbodroptime = 0;
+        for (ItemClass ic : Main.drops){
             drop.put(ic,true);
-        }
-        listPlayers.put(player, this);
-    }
-
-    public PlayerClass(Player p, boolean as, boolean ac, int ls, int lp, boolean ms){
-        player = p;
-        autosell = as;
-        for (ItemsClass ic : Main.drops){
-            drop.put(ic, true);
         }
         listPlayers.put(player, this);
     }
@@ -48,16 +42,16 @@ public class PlayerClass {
         return autosell;
     }
 
-    public boolean getDrop(ItemsClass ic){
+    public boolean getDrop(ItemClass ic){
         return drop.get(ic);
     }
 
-    public void setDrop(ItemsClass itm, Boolean b) {
+    public void setDrop(ItemClass itm, Boolean b) {
         drop.replace(itm, b);
     }
 
-    public void setAutosell(boolean autosell) {
-        this.autosell = autosell;
+    public void setAutosell(boolean autosel) {
+        autosell = autosel;
     }
 
     public boolean isAutopickup() {

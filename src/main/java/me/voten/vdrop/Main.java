@@ -3,10 +3,11 @@ package me.voten.vdrop;
 import com.google.common.collect.Maps;
 import me.voten.vdrop.commands.DropCommand;
 import me.voten.vdrop.commands.TurboCommand;
+import me.voten.vdrop.listeners.InventoryClickEventNewVer;
 import me.voten.vdrop.listeners.InventoryClickListener;
 import me.voten.vdrop.listeners.JoinListener;
 import me.voten.vdrop.listeners.MineListener;
-import me.voten.vdrop.utils.ItemsClass;
+import me.voten.vdrop.utils.ItemClass;
 import me.voten.vdrop.utils.PlayerClass;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
@@ -24,7 +25,7 @@ import java.util.logging.Level;
 
 public final class Main extends JavaPlugin {
 
-    public static List<ItemsClass> drops = new ArrayList<>();
+    public static List<ItemClass> drops = new ArrayList<>();
     private static Economy econ = null;
     public static boolean multiitem = false;
     public static boolean customnames = false;
@@ -32,17 +33,20 @@ public final class Main extends JavaPlugin {
     public static List<Material> blocksdrop = new ArrayList<>();
     public static HashMap<Player, String> namechangeplayer = Maps.newHashMap();
     public static HashMap<Player, String> itemchangeplayer = Maps.newHashMap();
+    public static boolean usenewmethod = false;
 
     @Override
     public void onEnable() {
         getLogger().log(Level.INFO, "Loading Plugin");
         this.saveDefaultConfig();
+        isMC114ornewer();
         loadConfigs();
         initializeDrops();
         initializePlayer();
+        if (usenewmethod) getServer().getPluginManager().registerEvents(new InventoryClickEventNewVer(), this);
+        else this.getServer().getPluginManager().registerEvents(new InventoryClickListener(), this);
         this.getServer().getPluginManager().registerEvents(new MineListener(), this);
         this.getServer().getPluginManager().registerEvents(new JoinListener(), this);
-        this.getServer().getPluginManager().registerEvents(new InventoryClickListener(), this);
         this.getCommand("turbodrop").setExecutor(new TurboCommand());
         this.getCommand("drop").setExecutor(new DropCommand());
 
@@ -52,6 +56,13 @@ public final class Main extends JavaPlugin {
             return;
         }
         getLogger().log(Level.INFO, "Plugin Loaded");
+    }
+
+    public static void isMC114ornewer(){
+        List<String> vers = Arrays.asList("1.14", "1.15", "1.16", "1.17", "1.18");
+        for(String s : vers) {
+            if(Bukkit.getBukkitVersion().contains(s)) usenewmethod = true;
+        }
     }
 
     private void loadConfigs() {
@@ -67,7 +78,7 @@ public final class Main extends JavaPlugin {
 
     public void initializePlayer(){
         for(Player p : Bukkit.getOnlinePlayers()){
-            new PlayerClass(p, true, true, 1, 1 ,false);
+            new PlayerClass(p);
         }
     }
 
@@ -85,11 +96,11 @@ public final class Main extends JavaPlugin {
             String name = currentitem.getString("name");
             assert name != null;
             name  = name.replace("&", "§");
-            drops.add(new ItemsClass(Material.getMaterial(currentitem.getString("item").toUpperCase()),
+            drops.add(new ItemClass(Material.getMaterial(currentitem.getString("item").toUpperCase()),
                     currentitem.getDouble("chance"), currentitem.getInt("exp"), currentitem.getInt("min"),
                     currentitem.getInt("max"), currentitem.getDouble("money"), name));
         }
-        drops.sort(Comparator.comparing(ItemsClass::getChance));
+        drops.sort(Comparator.comparing(ItemClass::getChance));
     }
 
     private boolean setupEconomy() {

@@ -2,7 +2,6 @@ package me.voten.vdrop.utils;
 
 import me.voten.vdrop.Main;
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
@@ -33,7 +32,7 @@ public class GuiDrop {
         }
         Inventory inv = Bukkit.createInventory(null, invsize, Main.color(Main.config.getString("title")));
         PlayerClass pc = PlayerClass.getByPlayer(p);
-        for (ItemsClass itm : Main.drops){
+        for (ItemClass itm : Main.drops){
             String status = Boolean.toString(PlayerClass.getByPlayer(p).getDrop(itm));
             status = Main.replaceBooleans(status);
             ItemStack it = itm.getItem();

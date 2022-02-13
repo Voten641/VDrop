@@ -3,6 +3,7 @@ package me.voten.vdrop.commands;
 import me.voten.vdrop.Main;
 import me.voten.vdrop.utils.GuiConfiguration;
 import me.voten.vdrop.utils.GuiDrop;
+import me.voten.vdrop.utils.GuiDropNewVer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -27,10 +28,14 @@ public class DropCommand implements CommandExecutor {
                         e.printStackTrace();
                     }
                 }
-                else p.openInventory(GuiDrop.inv(p));
+                else {
+                    if (Main.usenewmethod) p.openInventory(GuiDropNewVer.inv(p));
+                    else p.openInventory(GuiDrop.inv(p));
+                }
                 return true;
             }else{
-                p.openInventory(GuiDrop.inv(p));
+                if (Main.usenewmethod) p.openInventory(GuiDropNewVer.inv(p));
+                else p.openInventory(GuiDrop.inv(p));
             }
         }
         return false;
