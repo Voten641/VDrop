@@ -3,6 +3,7 @@ package me.voten.vdrop.listeners;
 import com.jeff_media.morepersistentdatatypes.ConfigurationSerializableDataType;
 import me.voten.vdrop.Main;
 import me.voten.vdrop.utils.GuiDrop;
+import me.voten.vdrop.utils.GuiDropNewVer;
 import me.voten.vdrop.utils.ItemClass;
 import me.voten.vdrop.utils.PlayerClass;
 import org.bukkit.Material;
@@ -16,6 +17,7 @@ import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
 import java.util.HashMap;
+import java.util.Objects;
 
 public class InventoryClickEventNewVer implements Listener {
 
@@ -30,7 +32,7 @@ public class InventoryClickEventNewVer implements Listener {
                 ItemClass itm = pdc.get(key, itemclasstype);
                 ItemClass itm2 = new ItemClass(Material.STONE, 1.0,1,1,1,1.0,"WRONG ITEM");
                 PlayerClass pc = PlayerClass.getByPlayer((Player) e.getWhoClicked());
-                if(e.getCurrentItem().containsEnchantment(Enchantment.DURABILITY) && itm != itm2){
+                if(e.getCurrentItem().containsEnchantment(Enchantment.DURABILITY) && !Objects.equals(itm, itm2)){
                     pc.setDrop(Main.drops.get(e.getSlot()), !pc.getDrop(Main.drops.get(e.getSlot())));
                 }
                 else{
@@ -48,7 +50,7 @@ public class InventoryClickEventNewVer implements Listener {
                         pc.setAutopickup(!pc.isAutopickup());
                     }
                 }
-                e.getWhoClicked().openInventory(GuiDrop.inv((Player)e.getWhoClicked()));
+                e.getWhoClicked().openInventory(GuiDropNewVer.inv((Player)e.getWhoClicked()));
             }
         }
 
